@@ -1,0 +1,47 @@
+managed implementation in class ZBP_R_AIRPORTS_0901 unique;
+strict ( 2 );
+with draft;
+define behavior for ZR_AIRPORTS_0901 alias Airport
+persistent table ZAIRPORTS_0901
+draft table ZAIRPORTS_0901_D
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+
+{
+  field ( mandatory : create )
+   Airport;
+
+  field ( readonly )
+   LastChangedAt,
+   LocalCreatedBy,
+   LocalCreatedAt,
+   LocalLastChangedBy,
+   LocalLastChangedAt;
+
+  field ( readonly : update )
+   Airport;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for ZAIRPORTS_0901
+  {
+    Airport = airport;
+    Country = country;
+    City = city;
+    LastChangedAt = last_changed_at;
+    LocalCreatedBy = local_created_by;
+    LocalCreatedAt = local_created_at;
+    LocalLastChangedBy = local_last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZC_AIRPORTS_0901'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_AIRPORTS_0901'
+  }
+}
+define service ZUI_AIRPORTS_0901_O4 provider contracts odata_v4_ui {
+  expose ZC_AIRPORTS_0901 as Airport;
+}

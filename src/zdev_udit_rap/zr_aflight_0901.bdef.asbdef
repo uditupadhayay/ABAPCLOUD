@@ -1,0 +1,67 @@
+managed implementation in class ZBP_R_AFLIGHT_0901 unique;
+strict ( 2 );
+with draft;
+define behavior for ZR_AFLIGHT_0901 alias Flight
+persistent table zaflight_0901
+draft table zaflight_0901_d
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( global )
+
+{
+  field ( readonly )
+  Uuid,
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  field ( mandatory )
+  AirportFrom,
+  AirportTo,
+  Connid,
+  Carrid;
+
+  field ( numbering : managed )
+  Uuid;
+
+
+  create;
+  update;
+  delete;
+
+  validation checkSemanticKey on save { create; update; }
+  validation checkCarrid on save { create; update; }
+  validation toFromAirport on save { create; update; }
+  validation checkCurrency on save { create; field Currency; }
+  validation checkPrice on save { create; field Price; }
+  determination findDestination on save { create; field AirportTo; }
+  determination findSource on save { create; field AirportFrom; }
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zaflight_0901
+    {
+      Uuid               = uuid;
+      Carrid             = carrid;
+      connid             = connid;
+      AirportFrom        = airport_from;
+      CountryFrom        = country_from;
+      CityFrom           = city_from;
+      AirportTo          = airport_to;
+      CountryTo          = country_to;
+      CityTo             = city_to;
+      price              = price;
+      currency           = currency;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}
